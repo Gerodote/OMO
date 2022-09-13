@@ -1,4 +1,3 @@
-import math
 from typing import Callable, Union
 from random import random
 
