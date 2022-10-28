@@ -55,7 +55,7 @@ def GEPP(A: np.ndarray, b: np.ndarray, pivoting: bool = True):
                 A[row, k:] = A[row, k:] - multiplier * A[k, k:]
                 b[row] = b[row] - multiplier * b[k]
 
-    def _back_substituion(A, b):
+    def _back_substitution(A, b):
 
         x = np.zeros(A.shape[1])
         for k in range(A.shape[1] - 1, -1, -1):
@@ -67,7 +67,7 @@ def GEPP(A: np.ndarray, b: np.ndarray, pivoting: bool = True):
 
     _validate_input(A_copy, b_copy)
     _elimination(A_copy, b_copy, pivoting)
-    return _back_substituion(A_copy, b_copy)
+    return _back_substitution(A_copy, b_copy)
 
 
 def is_matrix_positive_definite(matrix: np.ndarray):
