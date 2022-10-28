@@ -1,4 +1,4 @@
-# OMO_lab1
+# OMO ( aka basics of numerical methods)
 a laboratory work for basics of computational methods. ( for my uni )
 
 
