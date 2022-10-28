@@ -13,16 +13,9 @@ class AbstractRealRange(ABC):
         pass
 
 
-class AbstractRootFinder(ABC):
-
-    @abstractmethod
-    def __call__(self, func: Callable[[float], float], eps: float,
-                 *args, **kwargs) -> float:
-        pass
-
-
 class NoRootOnTheRange(ValueError):
     pass
+
 
 class HugeRange(ValueError):
     pass
