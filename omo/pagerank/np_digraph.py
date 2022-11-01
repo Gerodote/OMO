@@ -42,14 +42,12 @@ class np_digraph:
     def __init__(self, matrix:Optional[np.ndarray]=None, init_size=2, dtype=np.float64):
         if matrix is not None:
             self._adjacency_matrix = matrix
-            self._dtype = matrix.dtype
         else:
-            self._dtype = dtype        
-            self._adjacency_matrix = np.matrix(np.zeros((init_size,init_size)),dtype=self._dtype)
+            self._adjacency_matrix = np.matrix(np.zeros((init_size,init_size)),dtype=dtype)
             self._set_value_at_diagonal(np.float64(1))
 
     def __str__(self) -> str:
-        return str(self._adjacency_matrix.__str__()) + str(self._dtype)
+        return str(self._adjacency_matrix.__str__()) + str(self._adjacency_matrix.dtype)
     
     def __repr__(self) -> str:
         return self.__str__()
@@ -67,7 +65,6 @@ class np_digraph:
         if matrix.shape[0] != matrix.shape[1]:
             raise TypeError("matrix is not square.")
         self._adjacency_matrix = matrix
-        self._dtype = matrix.dtype
 
     def get_pathes_costs(self,path):
         result = np.empty(shape=(len(path)-1,))
@@ -86,8 +83,8 @@ class np_digraph:
         delta_size = size - self._adjacency_matrix.shape[0]
         self._adjacency_matrix = np.concatenate(
             (np.concatenate((self._adjacency_matrix, 
-                        np.zeros((self._adjacency_matrix.shape[0],delta_size),dtype=self._dtype)),axis=1), 
-             np.zeros((delta_size, self._adjacency_matrix.shape[1]+delta_size), dtype=self._dtype)),axis=0)
+                        np.zeros((self._adjacency_matrix.shape[0],delta_size),dtype=self._adjacency_matrix.dtype)),axis=1), 
+             np.zeros((delta_size, self._adjacency_matrix.shape[1]+delta_size), dtype=self._adjacency_matrix.dtype)),axis=0)
 
     def resize(self, size):
         if size > self._adjacency_matrix.shape[0]:
@@ -151,7 +148,7 @@ class np_digraph:
         self._adjacency_matrix = new_matrix
 
     
-    def pagerank(self, personal_vector:Optional[np.ndarray]=None, dampling_factor:float=0.82, eps=0.0001, optimization_eps:bool=True, is_already_stochastic:IsStochastic=IsStochastic.NO, check_if_is_already_specific_stochastic:bool=True):
+    def pagerank(self, personal_vector:Optional[np.ndarray]=None, dampling_factor:float=0.82, eps=0.0001, optimization_eps:bool=True, is_already_stochastic:IsStochastic=IsStochastic.NO, check_if_is_already_specific_stochastic:bool=True, is_row_a_node:bool=True):
         '''
         power iteration method used for finding the largest eigenvector approximation
         
@@ -161,7 +158,10 @@ class np_digraph:
         '''
         
         if is_already_stochastic == IsStochastic.NO:
+            if is_row_a_node:
+                self._adjacency_matrix = np.transpose(self._adjacency_matrix)   
             self.make_adjacency_matrix_left_stochastic()
+            
         elif is_already_stochastic == IsStochastic.LEFT:
             if check_if_is_already_specific_stochastic:
                 if not is_already_left_stochastic(self._adjacency_matrix):

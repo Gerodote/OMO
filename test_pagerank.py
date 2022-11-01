@@ -17,13 +17,17 @@ def test_power_method_upto_accuracy(matrix, result):
     assert pytest.approx(result,abs=0.01) == sth2
 
 
-@pytest.mark.parametrize('matrix, result, dampling_factor, is_stochastic, left_or_right_stochastic, check_it')
-def test_pagerank():
-    probability_matrix = np.array([[0,0.5,0,0.5],
+@pytest.mark.parametrize('matrix, result, dampling_factor, is_stochastic, check_it, is_row_a_node', 
+                         [(np.array([[0,0.5,0,0.5],
                                    [0,0,1,0],
                                    [0.33,0.33,0,0.33],
-                                   [0,0,1,0]])
-    result = np.array([0.14,0.21,0.43,0.21])
-    sth = np_digraph(matrix=probability_matrix)
-    sth_2 = sth.pagerank(dampling_factor=1, is_already_stochastic=IsStochastic.RIGHT)
+                                   [0,0,1,0]]), np.array([0.14,0.21,0.43,0.21]), 1, IsStochastic.RIGHT, False, True ),
+                          (np.array([[0,6,1,5,0,0],[6,0,5,0,3,0],[1,5,0,5,6,4],[5,0,5,0,0,2],[0,3,6,0,0,6],[0,0,4,2,6,0]]),
+                            np.array([0.15575401, 0.16396988, 0.20851969, 0.15348241, 0.16817022,0.15010378]),
+                            0.85,IsStochastic.NO, False, True)
+                          ]
+                         )
+def test_pagerank(matrix, result, dampling_factor, is_stochastic, check_it, is_row_a_node):
+    sth = np_digraph(matrix=matrix)
+    sth_2 = sth.pagerank(dampling_factor=dampling_factor, is_already_stochastic=is_stochastic,check_if_is_already_specific_stochastic=check_it, is_row_a_node=is_row_a_node)
     assert pytest.approx(result, abs=0.01) == sth_2
