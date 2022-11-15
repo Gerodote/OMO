@@ -207,7 +207,7 @@ class np_digraph:
             vector = personal_vector / np.linalg.norm(x=personal_vector, ord=1)
         else:
             vector = np.ones(shape=(self._adjacency_matrix.shape[0], 1),
-                             dtype=np.float64)
+                             dtype=np.float64) / self._adjacency_matrix.shape[0]
 
         matrix_G = (dampling_factor * self._adjacency_matrix) + (
             (1 - dampling_factor) *
