@@ -19,13 +19,8 @@ def test_power_method_upto_accuracy(matrix, result):
     'matrix, result, dampling_factor, is_stochastic, check_it, is_row_a_node',
     [(np.array([[0, 0.5, 0, 0.5], [0, 0, 1, 0], [0.33, 0.33, 0, 0.33],
                 [0, 0, 1, 0]]), np.array([0.14, 0.21, 0.43, 0.21]), 1,
-      IsStochastic.RIGHT, False, True),
-     (np.array([[0, 6, 1, 5, 0, 0], [6, 0, 5, 0, 3, 0], [1, 5, 0, 5, 6, 4],
-                [5, 0, 5, 0, 0, 2], [0, 3, 6, 0, 0, 6], [0, 0, 4, 2, 6, 0]]),
-      np.array([
-          0.15575401, 0.16396988, 0.20851969, 0.15348241, 0.16817022,
-          0.15010378
-      ]), 0.85, IsStochastic.NO, False, True)])
+      IsStochastic.RIGHT, False, True)
+    ])
 def test_pagerank(matrix, result, dampling_factor, is_stochastic, check_it,
                   is_row_a_node):
     sth = np_digraph(matrix=matrix)

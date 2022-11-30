@@ -8,6 +8,9 @@ class DimensionalError(TypeError):
 class SizeError(TypeError):
     ...
 
+def matrix_system_equation_solver(A,b):
+    return np.linalg.inv(A) @ b
+
 
 def GEPP(A: np.ndarray, b: np.ndarray, pivoting: bool = True):
     """
